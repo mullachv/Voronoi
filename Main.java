@@ -9,7 +9,6 @@ public class Main {
 	String self = "mv_cly";
 	Board board;
 	Strategy strategy;
-	boolean playing;
 	final String host = "localhost";
 	final int port = 1337;
 	
@@ -26,7 +25,7 @@ public class Main {
 	}
 	
 	private void run() throws IOException{
-		playing = true;
+		boolean playing = true;
 		
 		while(playing){
 			String input = tcpClient.read();
@@ -52,11 +51,11 @@ public class Main {
 		board.reset();
 	}
 	
-	private String getTeamName() throws IOException{
+	private String getTeamName(){
 		return self;
 	}
 
-	private String getNextMove(String[] line) throws IOException{
+	private String getNextMove(String[] line){
 		if(line[0] == "RESTART"){
 			//reset to initial state
 			resetGame();
@@ -64,6 +63,7 @@ public class Main {
 		// store other players' move to my board
 		for(int i=0; i<line.length-1; i++){
 			String[] otherPLayersMove = line[i].split(" ");
+			if(otherPLayersMove.length < 3){ continue; }
 			String playerName = otherPLayersMove[0];
 			int x = Integer.parseInt(otherPLayersMove[1]);
 			int y = Integer.parseInt(otherPLayersMove[2]);
