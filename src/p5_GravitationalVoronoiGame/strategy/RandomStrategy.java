@@ -12,9 +12,8 @@ public class RandomStrategy implements Strategy {
 		while(nextMove == null){
 			int x = r.nextInt(board.getBoardSize());
 			int y = r.nextInt(board.getBoardSize());
-			Move tmpMove = Move.createMyMove(x, y);
 			if(board.isEmptyAt(x, y)){
-				nextMove = tmpMove;
+				nextMove = Move.createMyMove(x, y);
 			}
 		}
 		return nextMove;

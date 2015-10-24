@@ -27,10 +27,10 @@ public class TCPClient {
 		return s;
 	}
 	
-	public String readAll() throws IOException {
+	public String readAll() throws IOException{
 		byte[] b = new byte[1024];
 		int msg = is.read(b);
-	    return new String(b, 0, msg);
+		return new String(b, 0, msg);
 	}
 	
 	public void write(String output) throws IOException{
