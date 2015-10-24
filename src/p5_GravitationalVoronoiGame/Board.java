@@ -13,7 +13,7 @@ public class Board {
 	final int size = 1000;
 	int[][] currColor;
 	double[][][] currPull;
-	double[][] cache;
+	//double[][] cache;
 	Map<Integer, List<Move>> prevMovesByPlayer;
 	int playerNo =2;
 	int currScore[];
@@ -34,8 +34,8 @@ public class Board {
 		// when a new stone is added, update all positions by adding pulls for this new stone
 		currPull = new double[size][size][playerNo];
 		
-		cache = new double[size][size];
-		initialCache();
+		//cache = new double[size][size];
+		//initialCache();
 		
 		currScore = new int[playerNo];
 	}
@@ -44,16 +44,11 @@ public class Board {
 		previousMoves.add(m);
 		hasStone[m.x][m.y] = true;
 		
+		// add previous move to this player's move list
 		if(prevMovesByPlayer.get(m.plId) == null){
 			prevMovesByPlayer.put(m.plId, new ArrayList<Move>());
 		}
-		System.out.println("m.plId=" + m.plId);
-		
 		prevMovesByPlayer.get(m.plId).add(m);
-		
-		if(m.plId+1 > playerNo){
-			playerNo = m.plId+1;
-		}
 		
 		updateCurrScore(m);
 	}
@@ -92,7 +87,9 @@ public class Board {
 		
 		for(int i=0; i<size; i++){
 			for(int j=0; j<size; j++){
-				currPull[i][j][newMove.plId] += 1/(AbsPlayer.getDistanceSq(i, j, newMove)*AbsPlayer.getDistanceSq(i, j, newMove));
+				
+				// check the calculation rules here with architect team
+				currPull[i][j][newMove.plId] += 1/AbsPlayer.getDistanceSq(i, j, newMove);
 				
 				// update currColor based on currPull
 				double maxPull = 0;
@@ -113,6 +110,7 @@ public class Board {
 		}
 	}
 	
+	/*
 	private void initialCache(){
 		for(int i=0; i<size; i++){
 			for(int j=0; j<size; j++){
@@ -122,10 +120,10 @@ public class Board {
 				}else{
 					// check the calculation rules here with architect team
 					cache[i][j] = 1/(d*d);
-				}		
+				}
 			}
 		}
-	}
+	}*/
 	
 	public void printCurrScore(){
 		System.out.println("CurrScore==");
@@ -138,4 +136,25 @@ public class Board {
 	public int getCurrScoreByPlayer(int playerId){
 		return currScore[playerId];
 	}
+	
+	public double[][][] getCurrPull(){
+		return currPull;
+	}
+	
+	public int[][] getCurrColor(){
+		return currColor;
+	}
+	
+	/*
+	public double[][][] getCopyOfCurrPull(){
+		double[][][] copyCurrPull = new double[size][size][playerNo];
+		for(int i=0; i<size; i++){
+			for(int j=0; j<size; j++){
+				for(int k=0; k<playerNo; k++){
+					copyCurrPull[i][j][k] = currPull[i][j][k];
+				}
+			}
+		}
+		return copyCurrPull;
+	}*/
 }
