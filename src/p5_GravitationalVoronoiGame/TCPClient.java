@@ -5,20 +5,22 @@ import java.net.*;
 
 public class TCPClient {
 	
-	Socket clientSocket;
+	Socket socket;
 	DataOutputStream outToServer;
 	//BufferedReader inFromServer;
 	InputStream is;
+	PrintWriter out;
 	
 	public void startTCP(String host, int port) throws UnknownHostException, IOException{
-		clientSocket = new Socket(host, port);
-		outToServer = new DataOutputStream(clientSocket.getOutputStream());
+		socket = new Socket(host, port);
+		outToServer = new DataOutputStream(socket.getOutputStream());
 		//inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		is = clientSocket.getInputStream();
+		is = socket.getInputStream();
+		out = new PrintWriter(socket.getOutputStream(), true);
 	}
 	
 	public void closeTCP() throws IOException{
-		clientSocket.close();
+		socket.close();
 	}
 	
 	public String read() throws IOException{
@@ -34,6 +36,7 @@ public class TCPClient {
 	}
 	
 	public void write(String output) throws IOException{
-		outToServer.writeBytes(output);
+		//outToServer.writeBytes(output);
+		out.print(output);
 	}
 }
