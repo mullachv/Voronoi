@@ -37,6 +37,6 @@ public class TCPClient {
 	
 	public void write(String output) throws IOException{
 		//outToServer.writeBytes(output);
-		out.print(output);
+		out.println(output);
 	}
 }
