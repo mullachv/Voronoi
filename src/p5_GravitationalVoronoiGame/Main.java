@@ -67,7 +67,7 @@ public class Main {
 			String playerName = otherPLayersMove[0];
 			int x = Integer.parseInt(otherPLayersMove[1]);
 			int y = Integer.parseInt(otherPLayersMove[2]);
-			board.addPrevMove(Move.createOthersMove(playerName, x, y));
+			board.addPrevMove(Move.createOthersMove(i+1, x, y));
 		}
 		// make next move and add myMove to my board
 		Move nextMove = strategy.makeAMove(board);
