@@ -16,6 +16,8 @@ public class RandomStrategy implements Strategy {
 				nextMove = Move.createMyMove(x, y);
 			}
 		}
+		
+		board.printCurrScore();
 		return nextMove;
 	}
 }

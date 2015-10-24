@@ -22,6 +22,8 @@ public abstract class AbsPlayer {
 	
 	public double getPull(int x, int y, Player pl) {
 		double acc = 0;
+		
+		System.out.println("moves size=" + moves.size());
 		for (Move m: moves) {
 			if (playerId != m.plId) {
 				continue;
@@ -34,7 +36,23 @@ public abstract class AbsPlayer {
 		return acc;
 	}
 	
-	private static double getDistanceSq(int px, int py, Move mv) {
+	public static double getPull(List<Move> moves, int x, int y, int playerId){
+		double acc = 0;
+		
+		System.out.println("moves size=" + moves.size());
+		for (Move m: moves) {
+			if (playerId != m.plId) {
+				continue;
+			}
+			if (m.x == x && m.y == y) {
+				return MAX_PULL;
+			}
+			acc += 1/getDistanceSq(x, y, m);
+		}
+		return acc;
+	}
+	
+	public static double getDistanceSq(int px, int py, Move mv) {
 		return getDistanceSq(px, py, mv.x, mv.y);
 	}
 	

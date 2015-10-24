@@ -22,6 +22,10 @@ public class Main {
 		m.strategy = new RandomStrategy();
 		
 		m.run();
+		
+		m.tcpClient.closeTCP();
+		
+		m.board.printCurrScore();
 	}
 	
 	private void run() throws IOException{
@@ -38,9 +42,7 @@ public class Main {
 			
 				case "MOVE": tcpClient.write(getNextMove(line)); break;
 				
-				case "END": tcpClient.closeTCP();
-							playing = false;
-							break;
+				case "END": playing = false; break;
 				
 				case "RESTART": resetGame(); break;
 			}
