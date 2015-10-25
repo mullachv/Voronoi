@@ -15,7 +15,7 @@ public class OnePixelToMaxScoreStrategyV3 implements Strategy{
 	int[][] directions = {{-1, 0}, {-1,-1}, {0,-1}, {1,-1}, {1,0}, {1,1}, {0, 1}, {-1, 1}};
 	Random r = new Random();
 	Move bestMove = null;
-	int maxScore = 0;
+	double maxScore = 0;
 	
 	@Override
 	public Move makeAMove(Board board) {
@@ -40,7 +40,7 @@ public class OnePixelToMaxScoreStrategyV3 implements Strategy{
 				int nextY = prevMove.y + directions[i][1];
 				if(isValidMove(board, nextX, nextY)){
 					Move thisMove = Move.createMyMove(nextX, nextY);
-					int thisScore = board.testMyScoreWithThisMove(thisMove);
+					double thisScore = board.testMyScoreWithThisMove(thisMove);
 					if(thisScore > maxScore){
 						maxScore = thisScore;
 						bestMove = thisMove;
@@ -50,7 +50,7 @@ public class OnePixelToMaxScoreStrategyV3 implements Strategy{
 					int nextY2 = prevMove.y + directions[i][1]*2;
 					if(isValidMove(board, nextX2, nextY2)){
 						Move thisMove = Move.createMyMove(nextX2, nextY2);
-						int thisScore = board.testMyScoreWithThisMove(thisMove);
+						double thisScore = board.testMyScoreWithThisMove(thisMove);
 						if(thisScore > maxScore){
 							maxScore = thisScore;
 							bestMove = thisMove;
@@ -75,7 +75,7 @@ public class OnePixelToMaxScoreStrategyV3 implements Strategy{
 				// if this position is empty and the color of this position is not mine, then accept this move
 				if(board.isEmptyAt(x, y) && currColor[x][y] != 0){
 					nextMove = Move.createMyMove(x, y);
-					int thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
+					double thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
 					if(thisScoreDiff > maxScore){
 						maxScore = thisScoreDiff;
 						bestMove = nextMove;

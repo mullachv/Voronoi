@@ -17,14 +17,14 @@ public class OnePixelToMaxScoreStrategy implements Strategy{
 		
 		Move prevMove = board.getPrevMoves().get(board.getPrevMoves().size() - 1);
 		Move bestMove = null;
-		int maxScore = 0;
+		double maxScore = 0;
 		
 		for(int i=0; i<directions.length; i++){
 			int nextX = prevMove.x + directions[i][0];
 			int nextY = prevMove.y + directions[i][1];
 			if(isValidMove(board, nextX, nextY)){
 				Move thisMove = Move.createMyMove(nextX, nextY);
-				int thisScore = board.testMyScoreWithThisMove(thisMove);
+				double thisScore = board.testMyScoreWithThisMove(thisMove);
 				if(thisScore > maxScore){
 					maxScore = thisScore;
 					bestMove = thisMove;

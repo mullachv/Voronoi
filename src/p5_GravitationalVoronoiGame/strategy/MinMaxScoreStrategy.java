@@ -96,7 +96,7 @@ public class MinMaxScoreStrategy implements Strategy{
 	
 	private Move getBestOnePixelOffMove(Board board){
 		List<Move> otherPlayersMove = board.getPrevMovesByPlayerId(1);
-		int maxScore = 0;
+		double maxScore = 0;
 		Move bestMove = null;
 		
 		for(int j=0; j<otherPlayersMove.size(); j++){
@@ -106,7 +106,7 @@ public class MinMaxScoreStrategy implements Strategy{
 				int nextY = prevMove.y + directions[i][1];
 				if(isValidMove(board, nextX, nextY)){
 					Move thisMove = Move.createMyMove(nextX, nextY);
-					int thisScore = board.testMyScoreWithThisMove(thisMove);
+					double thisScore = board.testMyScoreWithThisMove(thisMove);
 					if(thisScore > maxScore){
 						maxScore = thisScore;
 						bestMove = thisMove;
@@ -116,7 +116,7 @@ public class MinMaxScoreStrategy implements Strategy{
 					int nextY2 = prevMove.y + directions[i][1]*2;
 					if(isValidMove(board, nextX2, nextY2)){
 						Move thisMove = Move.createMyMove(nextX2, nextY2);
-						int thisScore = board.testMyScoreWithThisMove(thisMove);
+						double thisScore = board.testMyScoreWithThisMove(thisMove);
 						if(thisScore > maxScore){
 							maxScore = thisScore;
 							bestMove = thisMove;
@@ -131,7 +131,7 @@ public class MinMaxScoreStrategy implements Strategy{
 	private Move getBestRandomMove(Board board, int startX, int startY, int offset){
 		int poolNo = 1000;
 		Move bestMove = null;
-		int maxScore = 0;
+		double maxScore = 0;
 		
 		for(int i=0; i<poolNo; i++){
 			Move nextMove = null;
@@ -142,7 +142,7 @@ public class MinMaxScoreStrategy implements Strategy{
 				// if this position is empty and the color of this position is not mine, then accept this move
 				if(isValidMove(board, x, y)){
 					nextMove = Move.createMyMove(x, y);
-					int thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
+					double thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
 					if(thisScoreDiff > maxScore){
 						maxScore = thisScoreDiff;
 						bestMove = nextMove;

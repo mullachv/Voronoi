@@ -19,7 +19,7 @@ public class OnePixelToMaxScoreStrategyV2 implements Strategy{
 		
 		List<Move> otherPlayersMove = board.getPrevMovesByPlayerId(1);
 		Move bestMove = null;
-		int maxScore = 0;
+		double maxScore = 0;
 		
 		for(int j=0; j<otherPlayersMove.size(); j++){
 			Move prevMove = otherPlayersMove.get(j);
@@ -28,7 +28,7 @@ public class OnePixelToMaxScoreStrategyV2 implements Strategy{
 				int nextY = prevMove.y + directions[i][1];
 				if(isValidMove(board, nextX, nextY)){
 					Move thisMove = Move.createMyMove(nextX, nextY);
-					int thisScore = board.testMyScoreWithThisMove(thisMove);
+					double thisScore = board.testMyScoreWithThisMove(thisMove);
 					if(thisScore > maxScore){
 						maxScore = thisScore;
 						bestMove = thisMove;
@@ -38,7 +38,7 @@ public class OnePixelToMaxScoreStrategyV2 implements Strategy{
 					int nextY2 = prevMove.y + directions[i][1]*2;
 					if(isValidMove(board, nextX2, nextY2)){
 						Move thisMove = Move.createMyMove(nextX, nextY);
-						int thisScore = board.testMyScoreWithThisMove(thisMove);
+						double thisScore = board.testMyScoreWithThisMove(thisMove);
 						if(thisScore > maxScore){
 							maxScore = thisScore;
 							bestMove = thisMove;

@@ -10,7 +10,7 @@ public class RandomMaxScoreLocationStrategy implements Strategy {
 	@Override
 	public Move makeAMove(Board board){
 		int poolNo = 3000;
-		int maxScoreDiff = 0;
+		double maxScoreDiff = 0;
 		Move bestMove = null;
 		
 		for(int i=0; i<poolNo; i++){
@@ -22,7 +22,7 @@ public class RandomMaxScoreLocationStrategy implements Strategy {
 				// if this position is empty and the color of this position is not mine (don't use this rule), then accept this move
 				if(board.isEmptyAt(x, y)){ //&& currColor[x][y] != 0){
 					nextMove = Move.createMyMove(x, y);
-					int thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
+					double thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
 					if(thisScoreDiff > maxScoreDiff){
 						maxScoreDiff = thisScoreDiff;
 						bestMove = nextMove;

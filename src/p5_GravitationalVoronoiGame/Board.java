@@ -16,7 +16,7 @@ public class Board {
 	//double[][] cache;
 	Map<Integer, List<Move>> prevMovesByPlayer;
 	int playerNo =2;
-	int currScore[];
+	double currScore[];
 	
 	public Board(){
 		previousMoves = new ArrayList<Move>();
@@ -34,10 +34,7 @@ public class Board {
 		// when a new stone is added, update all positions by adding pulls for this new stone
 		currPull = new double[size][size][playerNo];
 		
-		//cache = new double[size][size];
-		//initialCache();
-		
-		currScore = new int[playerNo];
+		currScore = new double[playerNo];
 	}
 	
 	public void addPrevMove(Move m){
@@ -92,20 +89,38 @@ public class Board {
 				currPull[i][j][newMove.plId] += 1/AbsPlayer.getDistanceSq(i, j, newMove);
 				
 				// update currColor based on currPull
-				double maxPull = 0;
+				double maxPull = -1;
 				int maxPullPlayer = -1;
+				List<Integer> maxScoreIdx = new ArrayList<Integer>();
 				for(int k=0; k<playerNo; k++){
 					if(currPull[i][j][k] > maxPull){
 						maxPull = currPull[i][j][k];
 						maxPullPlayer = k;
+						maxScoreIdx.clear();
+						maxScoreIdx.add(k);
+					}else if(currPull[i][j][k] == maxPull){
+						maxScoreIdx.add(k);
 					}
 				}
 				
-				// update this position color with the playerId with maxPull
-				currColor[i][j] = maxPullPlayer;
-				
-				// add score to the player
-				currScore[maxPullPlayer]++;
+				// found a tie
+				if(maxScoreIdx.size() > 1){
+					
+					// use playerNo representing a tie position
+					currColor[i][j] = playerNo;
+					
+					// each tie player get 1/n score, where n is the number of tie players in this position
+					for(int k=0; k<maxScoreIdx.size(); k++){
+						currScore[maxScoreIdx.get(k)] += (double)1/maxScoreIdx.size();						
+					}
+
+				}else{
+					// update this position color with the playerId with maxPull
+					currColor[i][j] = maxPullPlayer;
+					
+					// add score to the player
+					currScore[maxPullPlayer]++;	
+				}
 			}
 		}
 	}
@@ -133,7 +148,7 @@ public class Board {
 		System.out.println();
 	}
 	
-	public int getCurrScoreByPlayer(int playerId){
+	public double getCurrScoreByPlayer(int playerId){
 		return currScore[playerId];
 	}
 	
@@ -147,15 +162,29 @@ public class Board {
 	
 	// calculate how many score I can increase if I make this move
 	// this method won't change board status
-	public int testMyScoreWithThisMove(Move newMove){
+	public double testMyScoreWithThisMove(Move newMove){
 		
-		int scoreDiff = 0;
+		double scoreDiff = 0;
 		for(int i=0; i<size; i++){
 			for(int j=0; j<size; j++){
 				if(currColor[i][j] == 0){ continue; }
-				double newPull = currPull[i][j][0] + 1/AbsPlayer.getDistanceSq(i, j, newMove);
-				if(newPull > currPull[i][j][1]){
-					scoreDiff++;
+				double newPull = currPull[i][j][0] + (double)1/AbsPlayer.getDistanceSq(i, j, newMove);
+				
+				double maxPull = newPull;
+				int tieNo = 0;
+				for(int k=1; k<playerNo; k++){
+					if(currPull[i][j][k] > maxPull){
+						maxPull = currPull[i][j][k];
+						tieNo = 0;
+					}else if(currPull[i][j][k] == maxPull){
+						tieNo++;
+					}
+				}
+				
+				// I am one of the max pull player
+				// tieNo+1= maxPull player in this position
+				if(maxPull == newPull){
+					scoreDiff += 1/(tieNo+1);
 				}
 			}
 		}
