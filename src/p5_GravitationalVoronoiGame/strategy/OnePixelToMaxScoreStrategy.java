@@ -35,7 +35,6 @@ public class OnePixelToMaxScoreStrategy implements Strategy{
 	}
 	
 	private boolean isValidMove(Board board, int x, int y){
-		System.out.println("isValidMove [0]");
 		if(x < 0 || y < 0 || x >= board.getBoardSize() || y >= board.getBoardSize() || !board.isEmptyAt(x, y)){
 			return false;
 		}

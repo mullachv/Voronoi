@@ -9,10 +9,9 @@ public class RandomMaxScoreLocationStrategy implements Strategy {
 	
 	@Override
 	public Move makeAMove(Board board){
-		int poolNo = 1000;
+		int poolNo = 3000;
 		int maxScoreDiff = 0;
 		Move bestMove = null;
-		int[][] currColor = board.getCurrColor();
 		
 		for(int i=0; i<poolNo; i++){
 			Move nextMove = null;
@@ -20,8 +19,8 @@ public class RandomMaxScoreLocationStrategy implements Strategy {
 				int x = r.nextInt(board.getBoardSize());
 				int y = r.nextInt(board.getBoardSize());
 				
-				// if this position is empty and the color of this position is not mine, then accept this move
-				if(board.isEmptyAt(x, y) && currColor[x][y] != 0){
+				// if this position is empty and the color of this position is not mine (don't use this rule), then accept this move
+				if(board.isEmptyAt(x, y)){ //&& currColor[x][y] != 0){
 					nextMove = Move.createMyMove(x, y);
 					int thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
 					if(thisScoreDiff > maxScoreDiff){
@@ -34,22 +33,4 @@ public class RandomMaxScoreLocationStrategy implements Strategy {
 		
 		return bestMove;
 	}
-	
-	/*
-	// calculate how many score I can increase if I make this move
-	private int getMyScoreWithThisMove(Board board, Move newMove, double[][][] currPull, int[][] currColor){
-		
-		int scoreDiff = 0;
-		for(int i=0; i<board.getBoardSize(); i++){
-			for(int j=0; j<board.getBoardSize(); j++){
-				if(currColor[i][j] == 0){ continue; }
-				double newPull = currPull[i][j][0] + 1/AbsPlayer.getDistanceSq(i, j, newMove);
-				if(newPull > currPull[i][j][1]){
-					scoreDiff++;
-				}
-			}
-		}
-		
-		return scoreDiff;
-	}*/
 }

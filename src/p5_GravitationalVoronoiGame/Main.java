@@ -19,7 +19,7 @@ public class Main {
 		m.board = new Board();
 		
 		// change to your strategy implementation here
-		m.strategy = new OnePixelToMaxScoreStrategy();
+		m.strategy = new MinMaxScoreStrategy();
 		
 		m.run();
 		
