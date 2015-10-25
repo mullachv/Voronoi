@@ -145,16 +145,21 @@ public class Board {
 		return currColor;
 	}
 	
-	/*
-	public double[][][] getCopyOfCurrPull(){
-		double[][][] copyCurrPull = new double[size][size][playerNo];
+	// calculate how many score I can increase if I make this move
+	// this method won't change board status
+	public int testMyScoreWithThisMove(Move newMove){
+		
+		int scoreDiff = 0;
 		for(int i=0; i<size; i++){
 			for(int j=0; j<size; j++){
-				for(int k=0; k<playerNo; k++){
-					copyCurrPull[i][j][k] = currPull[i][j][k];
+				if(currColor[i][j] == 0){ continue; }
+				double newPull = currPull[i][j][0] + 1/AbsPlayer.getDistanceSq(i, j, newMove);
+				if(newPull > currPull[i][j][1]){
+					scoreDiff++;
 				}
 			}
 		}
-		return copyCurrPull;
-	}*/
+		
+		return scoreDiff;
+	}
 }
