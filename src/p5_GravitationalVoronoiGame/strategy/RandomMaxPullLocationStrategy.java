@@ -4,14 +4,16 @@ import java.util.*;
 
 import p5_GravitationalVoronoiGame.*;
 
-public class RandomMaxScoreLocationStrategy implements Strategy {
+public class RandomMaxPullLocationStrategy implements Strategy {
 	Random r = new Random();
 	
 	@Override
 	public Move makeAMove(Board board){
 		int poolNo = 1000;
-		int maxScoreDiff = 0;
+		double maxPullDiff = 0;
 		Move bestMove = null;
+		
+		double[][][] currPull = board.getCurrPull();
 		int[][] currColor = board.getCurrColor();
 		
 		for(int i=0; i<poolNo; i++){
@@ -23,9 +25,9 @@ public class RandomMaxScoreLocationStrategy implements Strategy {
 				// if this position is empty and the color of this position is not mine, then accept this move
 				if(board.isEmptyAt(x, y) && currColor[x][y] != 0){
 					nextMove = Move.createMyMove(x, y);
-					int thisScoreDiff = board.testMyScoreWithThisMove(nextMove);
-					if(thisScoreDiff > maxScoreDiff){
-						maxScoreDiff = thisScoreDiff;
+					double thisPullDiff = getMyPullIncreseWithThisMove(board, nextMove, currPull, currColor);
+					if(thisPullDiff > maxPullDiff){
+						maxPullDiff = thisPullDiff;
 						bestMove = nextMove;
 					}
 				}
@@ -35,21 +37,17 @@ public class RandomMaxScoreLocationStrategy implements Strategy {
 		return bestMove;
 	}
 	
-	/*
 	// calculate how many score I can increase if I make this move
-	private int getMyScoreWithThisMove(Board board, Move newMove, double[][][] currPull, int[][] currColor){
+	private double getMyPullIncreseWithThisMove(Board board, Move newMove, double[][][] currPull, int[][] currColor){
 		
-		int scoreDiff = 0;
+		double pullDiff = 0;
 		for(int i=0; i<board.getBoardSize(); i++){
 			for(int j=0; j<board.getBoardSize(); j++){
 				if(currColor[i][j] == 0){ continue; }
-				double newPull = currPull[i][j][0] + 1/AbsPlayer.getDistanceSq(i, j, newMove);
-				if(newPull > currPull[i][j][1]){
-					scoreDiff++;
-				}
+				pullDiff =+ 1/AbsPlayer.getDistanceSq(i, j, newMove);
 			}
 		}
 		
-		return scoreDiff;
-	}*/
+		return pullDiff;
+	}
 }

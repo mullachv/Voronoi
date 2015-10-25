@@ -6,7 +6,7 @@ import p5_GravitationalVoronoiGame.strategy.*;
 public class Main {
 	
 	TCPClient tcpClient;
-	String self = "mv_cly";
+	String self = "mv_cly2";
 	Board board;
 	Strategy strategy;
 	final String host = "localhost";
@@ -19,7 +19,7 @@ public class Main {
 		m.board = new Board();
 		
 		// change to your strategy implementation here
-		m.strategy = new RandomMaxScoreLocationStrategy();
+		m.strategy = new OnePixelToMaxScoreStrategy();
 		
 		m.run();
 		
