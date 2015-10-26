@@ -47,9 +47,6 @@ public class Main {
 			}
 		}
 		
-		// change to your strategy implementation here
-		//m.strategy = new OnePixelToMaxScoreStrategyV3();
-		
 		m.run();
 		
 		m.tcpClient.closeTCP();

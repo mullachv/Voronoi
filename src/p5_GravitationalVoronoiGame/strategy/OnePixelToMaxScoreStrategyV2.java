@@ -37,7 +37,7 @@ public class OnePixelToMaxScoreStrategyV2 implements Strategy{
 					int nextX2 = prevMove.x + directions[i][0]*2;
 					int nextY2 = prevMove.y + directions[i][1]*2;
 					if(isValidMove(board, nextX2, nextY2)){
-						Move thisMove = Move.createMyMove(nextX, nextY);
+						Move thisMove = Move.createMyMove(nextX2, nextY2);
 						double thisScore = board.testMyScoreWithThisMove(thisMove);
 						if(thisScore > maxScore){
 							maxScore = thisScore;
