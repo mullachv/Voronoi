@@ -58,7 +58,6 @@ public class Main {
 			}
 		}
 		
-<<<<<<< HEAD
 
 		m.tcpClient.startTCP(m.host, m.port);
 		m.board = new Board();
@@ -66,8 +65,6 @@ public class Main {
 		// change to your strategy implementation here
 		//m.strategy = new OnePixelToMaxScoreStrategyV3();
 		
-=======
->>>>>>> 3948347fb71d956e8076d4c079bd394cd4dbcc94
 		m.run();
 		
 		m.tcpClient.closeTCP();
