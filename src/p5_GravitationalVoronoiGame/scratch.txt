@@ -1,4 +1,16 @@
-package p5_GravitationalVoronoiGame;
+		if (args.length > 0 ) {
+			if (args[0].substring(0, 2).equalsIgnoreCase("-s")) {
+				String ar = args[0].substring(2, 3);
+				if (ar.equalsIgnoreCase("R")) {
+					m.strategy = new RandomStrategy();					
+				} else if (ar.equalsIgnoreCase("O")) {
+					m.strategy = new OnePixelOff();
+				}
+			}
+		}
+		// change to your strategy implementation here
+
+		package p5_GravitationalVoronoiGame;
 
 import java.io.IOException;
 import p5_GravitationalVoronoiGame.strategy.*;
@@ -10,12 +22,14 @@ public class Main {
 	Board board;
 	Strategy strategy;
 	final String host = "localhost";
-	int port = 1337;	
+	final int port = 1337;
 	
 	//$java -jar client.jar -s3 myteamname
 	public static void main(String[] args) throws Exception{
 		Main m = new Main();
 		m.tcpClient = new TCPClient();
+		m.tcpClient.startTCP(m.host, m.port);
+		m.board = new Board();
 
 		if (args.length > 0 ) {
 			if (args[0].substring(0, 2).equalsIgnoreCase("-s")) {
@@ -42,26 +56,9 @@ public class Main {
 			}
 			if (args.length > 1) {
 				m.self = args[1];
-				
-				if (args.length > 2) {
-					if (args[2].substring(0, 2).equalsIgnoreCase("-m")) {
-						String mx = args[2].substring(2);
-						MoveTimer.initTimer(Integer.parseInt(mx));
-					}
-					if (args.length > 3) {
-						if (args[3].substring(0, 2).equalsIgnoreCase("-p")) {
-							String iport = args[3].substring(2);
-							m.port = Integer.parseInt(iport);
-						}
-					}
-				}
 			}
 		}
 		
-
-		m.tcpClient.startTCP(m.host, m.port);
-		m.board = new Board();
-
 		// change to your strategy implementation here
 		//m.strategy = new OnePixelToMaxScoreStrategyV3();
 		
@@ -122,3 +119,4 @@ public class Main {
 		return nextMove.toString();
 	}
 }
+		
