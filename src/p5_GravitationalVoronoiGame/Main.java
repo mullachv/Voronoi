@@ -16,7 +16,8 @@ public class Main {
 	public static void main(String[] args) throws Exception{
 		Main m = new Main();
 		m.tcpClient = new TCPClient();
-
+		boolean isInitialized = false;
+		
 		if (args.length > 0 ) {
 			if (args[0].substring(0, 2).equalsIgnoreCase("-s")) {
 				String ar = args[0].substring(2, 3);
@@ -32,6 +33,8 @@ public class Main {
 					m.strategy = new OnePixelToMaxScoreStrategyV3();
 				} else if (ar.equalsIgnoreCase("4")) {
 					m.strategy = new OnePixelToMaxScoreStrategyV4();
+				} else if (ar.equalsIgnoreCase("5")) {
+					m.strategy = new OnePixelToMaxScoreStrategyV5();
 				} else if (ar.equalsIgnoreCase("M")) {
 					m.strategy = new MinMaxScoreStrategy();
 				} else if (ar.equalsIgnoreCase("X")) {
@@ -47,6 +50,8 @@ public class Main {
 					if (args[2].substring(0, 2).equalsIgnoreCase("-m")) {
 						String mx = args[2].substring(2);
 						MoveTimer.initTimer(Integer.parseInt(mx));
+						System.out.println("Max time: " + mx);
+						isInitialized = true;
 					}
 					if (args.length > 3) {
 						if (args[3].substring(0, 2).equalsIgnoreCase("-p")) {
@@ -58,7 +63,10 @@ public class Main {
 			}
 		}
 		
-
+		if(!isInitialized) {
+			System.out.println("Not all initialization parameters supplied. Halting");
+			System.exit(-1);
+		}
 		m.tcpClient.startTCP(m.host, m.port);
 		m.board = new Board();
 
@@ -108,6 +116,7 @@ public class Main {
 		}
 		// store other players' move to my board
 		for(int i=0; i<line.length-1; i++){
+			System.out.println("Move i: " + i + "; line[i]: " + line[i] );
 			String[] otherPLayersMove = line[i].split(" ");
 			if(otherPLayersMove.length < 3){ continue; }
 			String playerName = otherPLayersMove[0];

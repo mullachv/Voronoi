@@ -34,10 +34,10 @@ public class OnePixelToMaxScoreStrategyV3 implements Strategy{
 	private Move getBestOnePixelOffMove(Board board){
 		List<Move> otherPlayersMove = board.getPrevMovesByPlayerId(1);
 		
-		for(int j=otherPlayersMove.size()-1; j >=0; j--){
-			if (MoveTimer.getTimer().isTimeExceeded()) {
-				return bestMove;
-			}
+		for(int j=0; j <otherPlayersMove.size(); j++){
+//			if (MoveTimer.getTimer().isTimeExceeded()) {
+//				return bestMove;
+//			}
 			Move prevMove = otherPlayersMove.get(j);
 			for(int i=0; i<directions.length; i++){
 				int nextX = prevMove.x + directions[i][0];
@@ -71,9 +71,9 @@ public class OnePixelToMaxScoreStrategyV3 implements Strategy{
 		int[][] currColor = board.getCurrColor();
 		
 		for(int i=0; i<poolNo; i++){
-			if (MoveTimer.getTimer().isTimeExceeded()) {
-				return bestMove;
-			}
+//			if (MoveTimer.getTimer().isTimeExceeded()) {
+//				return bestMove;
+//			}
 			Move nextMove = null;
 			while(nextMove == null){
 				int x = r.nextInt(board.getBoardSize());

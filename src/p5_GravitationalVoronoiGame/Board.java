@@ -191,4 +191,61 @@ public class Board {
 		
 		return scoreDiff;
 	}
+
+	//approximates the left (x) of an inscribed circle inside a square of 1000*1000
+	int getJMin(int i) {
+		int tl = Math.abs(i - size/2);
+		int tl015 = (int) ((double) tl * 0.15);
+		if (tl - tl015 >=0 ) {
+			return tl - tl015;
+		}
+		return 0;
+	}
+	
+	//approximates the right (x) of an inscribed circle inside a square of 1000*1000
+	int getJMax(int i) {
+		int tr = (i + size/2);
+		int tl015 = (int) ((double) Math.abs(i - size/2) * 0.15);
+		if (i >= size/2) {
+			tr = size/2 - tr;
+		}
+		int tr015 = tr + tl015;
+		if (tr015 >= size) {
+			return size;
+		}
+		return tr015;		
+	}
+	
+	//do not scan 1000 x 1000 but reduce it to the inscribed circle
+	public double testMyScoreWithThisMoveV5(Move newMove){
+		
+		double scoreDiff = 0;
+		for(int i=0; i<size; i++){
+			int jmin = getJMin(i);
+			int jmax = getJMax(i);			
+			for(int j=jmin; j<=jmax; j++){
+				if(currColor[i][j] == 0){ continue; }
+				double newPull = currPull[i][j][0] + (double)1/AbsPlayer.getDistanceSq(i, j, newMove);
+				
+				double maxPull = newPull;
+				int tieNo = 0;
+				for(int k=1; k<playerNo; k++){
+					if(currPull[i][j][k] > maxPull){
+						maxPull = currPull[i][j][k];
+						tieNo = 0;
+					}else if(currPull[i][j][k] == maxPull){
+						tieNo++;
+					}
+				}
+				
+				// I am one of the max pull player
+				// tieNo+1= maxPull player in this position
+				if(maxPull == newPull){
+					scoreDiff += 1/(tieNo+1);
+				}
+			}
+		}
+		
+		return scoreDiff;
+	}
 }
